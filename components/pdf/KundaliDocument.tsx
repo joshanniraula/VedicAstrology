@@ -228,6 +228,15 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
         'favorableLiquid'
     ];
 
+    // Helper to format planets (max 2 per line)
+    const formatPlanets = (planets: any[]) => {
+        const rows = [];
+        for (let i = 0; i < planets.length; i += 2) {
+            rows.push(planets.slice(i, i + 2).map((p: any) => `${p.symbol}${p.degree}`).join(' '));
+        }
+        return rows.join('\n');
+    };
+
     return (
         <Document>
             <Page size="A4" style={styles.page}>
@@ -329,32 +338,32 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                         {/* House Signs (Apexes) - Moved deeper into corners to avoid planets */}
                         <Text style={[styles.chartLabel, { top: '1%', left: '46.5%' }]}>{data.chart.signs[1]}</Text>
-                        <Text style={[styles.chartLabel, { top: '1%', left: '18%' }]}>{data.chart.signs[2]}</Text>
-                        <Text style={[styles.chartLabel, { top: '18%', left: '1%' }]}>{data.chart.signs[3]}</Text>
+                        <Text style={[styles.chartLabel, { top: '2%', left: '15%' }]}>{data.chart.signs[2]}</Text>
+                        <Text style={[styles.chartLabel, { top: '6%', left: '2%' }]}>{data.chart.signs[3]}</Text>
                         <Text style={[styles.chartLabel, { top: '48%', left: '1%' }]}>{data.chart.signs[4]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '18%', left: '1%' }]}>{data.chart.signs[5]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '1%', left: '18%' }]}>{data.chart.signs[6]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '6%', left: '2%' }]}>{data.chart.signs[5]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '2%', left: '15%' }]}>{data.chart.signs[6]}</Text>
                         <Text style={[styles.chartLabel, { bottom: '1%', left: '46.5%' }]}>{data.chart.signs[7]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '1%', right: '18%' }]}>{data.chart.signs[8]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '18%', right: '1%' }]}>{data.chart.signs[9]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '2%', right: '15%' }]}>{data.chart.signs[8]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '6%', right: '2%' }]}>{data.chart.signs[9]}</Text>
                         <Text style={[styles.chartLabel, { top: '48%', right: '1%' }]}>{data.chart.signs[10]}</Text>
-                        <Text style={[styles.chartLabel, { top: '18%', right: '1%' }]}>{data.chart.signs[11]}</Text>
-                        <Text style={[styles.chartLabel, { top: '1%', right: '18%' }]}>{data.chart.signs[12]}</Text>
+                        <Text style={[styles.chartLabel, { top: '6%', right: '2%' }]}>{data.chart.signs[11]}</Text>
+                        <Text style={[styles.chartLabel, { top: '2%', right: '15%' }]}>{data.chart.signs[12]}</Text>
 
                         {/* Planets for all 12 Houses (Geometric Centroids) */}
                         {[
                             { h: 1, top: '18%', left: '25%', width: '50%' },
-                            { h: 2, top: '6%', left: '10%', width: '30%' },
-                            { h: 3, top: '24%', left: '2%', width: '25%' },
-                            { h: 4, top: '40%', left: '5%', width: '35%' },
-                            { h: 5, top: '70%', left: '2%', width: '25%' },
+                            { h: 2, top: '10%', left: '10%', width: '30%' },
+                            { h: 3, top: '26%', left: '1%', width: '20%' },
+                            { h: 4, top: '40%', left: '8%', width: '35%' },
+                            { h: 5, top: '75%', left: '1%', width: '20%' },
                             { h: 6, top: '85%', left: '10%', width: '30%' },
                             { h: 7, top: '65%', left: '25%', width: '50%' },
                             { h: 8, top: '85%', left: '60%', width: '30%' },
-                            { h: 9, top: '70%', right: '2%', width: '25%' },
-                            { h: 10, top: '40%', right: '5%', width: '35%' },
-                            { h: 11, top: '24%', right: '2%', width: '25%' },
-                            { h: 12, top: '6%', left: '60%', width: '30%' },
+                            { h: 9, top: '75%', right: '1%', width: '20%' },
+                            { h: 10, top: '40%', right: '8%', width: '35%' },
+                            { h: 11, top: '26%', right: '1%', width: '20%' },
+                            { h: 12, top: '10%', left: '60%', width: '30%' },
                         ].map((pos) => {
                             const planets = data.chart.houses[pos.h];
                             if (!planets || planets.length === 0) return null;
@@ -364,14 +373,14 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                     top: pos.top,
                                     left: pos.left,
                                     ...((pos as any).right ? { right: (pos as any).right } : {}),
-                                    fontSize: 8,
-                                    fontFamily: 'Helvetica-Bold',
+                                    fontSize: 7,
+                                    fontFamily: 'Helvetica',
                                     width: pos.width,
                                     textAlign: 'center',
                                     color: '#000000',
                                     lineHeight: 1.1
                                 }}>
-                                    {planets.map(p => `${p.symbol}${p.degree}`).join(' ')}
+                                    {formatPlanets(planets)}
                                 </Text>
                             );
                         })}
@@ -434,7 +443,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 </View>
 
                 {/* Dasha Tables in PDF */}
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 60 }}>
                     <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 8, textAlign: 'left', color: '#E35E18' }}>({data.birthDetails.name})</Text>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
