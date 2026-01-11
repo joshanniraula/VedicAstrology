@@ -1,0 +1,50 @@
+{
+    "planets": {
+        "Sun": {
+            "beej": "Om Hram Hreem Hraum Sah Suryaya Namah",
+            "deity": "Surya"
+        },
+        "Moon": {
+            "beej": "Om Shram Shreem Shraum Sah Chandraya Namah",
+            "deity": "Chandra"
+        },
+        "Mars": {
+            "beej": "Om Kram Kreem Kraum Sah Bhaumaya Namah",
+            "deity": "Mangal"
+        },
+        "Mercury": {
+            "beej": "Om Bram Breem Braum Sah Budhaya Namah",
+            "deity": "Budh"
+        },
+        "Jupiter": {
+            "beej": "Om Gram Greem Graum Sah Gurave Namah",
+            "deity": "Brihaspati"
+        },
+        "Venus": {
+            "beej": "Om Dram Dreem Draum Sah Shukraya Namah",
+            "deity": "Shukra"
+        },
+        "Saturn": {
+            "beej": "Om Pram Preem Praum Sah Shanaishcharaya Namah",
+            "deity": "Shani"
+        },
+        "Rahu": {
+            "beej": "Om Bhram Bhreem Bhraum Sah Rahave Namah",
+            "deity": "Rahu"
+        },
+        "Ketu": {
+            "beej": "Om Stram Streem Straum Sah Ketave Namah",
+            "deity": "Ketu"
+        }
+    },
+    "yoginis": {
+        "Mangala": "Om Hreem Shreem Mangala Devyai Namah",
+        "Pingala": "Om Hreem Phat Pingala Devyai Namah",
+        "Dhanya": "Om Hreem Shreem Dhanya Devyai Namah",
+        "Bhramari": "Om Hreem Phat Bhramari Devyai Namah",
+        "Bhadrika": "Om Hreem Bhadrika Devyai Namah",
+        "Ulka": "Om Hreem Krom Ulka Devyai Namah",
+        "Siddha": "Om Hreem Shreem Siddha Devyai Namah",
+        "Sankata": "Om Hreem Sankata Devyai Namah"
+    }
+}
