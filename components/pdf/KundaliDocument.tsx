@@ -13,7 +13,10 @@ Font.register({
 
 const styles = StyleSheet.create({
     page: {
-        padding: 15,
+        paddingTop: 20,
+        paddingRight: 25,
+        paddingBottom: 20,
+        paddingLeft: 50, // Added gutter for stapling
         fontFamily: 'Helvetica',
         fontSize: 10,
         backgroundColor: '#ffffff'
@@ -22,10 +25,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 5,
+        marginBottom: 3,
         borderBottomWidth: 2,
         borderBottomColor: '#d6d6d6',
-        paddingBottom: 5
+        paddingBottom: 3
     },
     headerImage: {
         height: 55,
@@ -57,12 +60,12 @@ const styles = StyleSheet.create({
         marginTop: 2
     },
     section: {
-        marginBottom: 5,
+        marginBottom: 3,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     table: {
-        width: '48%',
+        width: '40%', // Reduced to give more room to chart
         borderWidth: 1,
         borderColor: '#000',
     },
@@ -86,8 +89,8 @@ const styles = StyleSheet.create({
         fontSize: 8
     },
     chartContainer: {
-        width: '48%',
-        height: 200,
+        width: '58%', // Enlarged
+        height: 230, // Enlarged
         borderWidth: 1,
         borderColor: '#e8bcbc',
         backgroundColor: '#fff8f0',
@@ -95,10 +98,11 @@ const styles = StyleSheet.create({
     },
     chartLabel: {
         position: 'absolute',
-        fontSize: 7,
-        color: 'black',
+        fontSize: 8, // Smaller for better clearance
+        fontFamily: 'Helvetica-Bold',
+        color: '#E35E18',
         textAlign: 'center',
-        width: 15, // fixed width to center
+        width: 15,
         height: 10
     },
     beneficTable: {
@@ -108,7 +112,7 @@ const styles = StyleSheet.create({
     },
     beneficRow: {
         flexDirection: 'row',
-        marginBottom: 4,
+        marginBottom: 2,
     },
     beneficLabel: {
         width: '25%',
@@ -251,7 +255,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 </View>
 
                 {/* Birth Details Table */}
-                <View style={{ marginBottom: 15, borderWidth: 1, borderColor: '#000' }}>
+                <View style={{ marginBottom: 10, borderWidth: 1, borderColor: '#000' }}>
                     <View style={{ flexDirection: 'row', backgroundColor: '#FF9933', padding: 4, borderBottomWidth: 1, borderBottomColor: '#000' }}>
                         <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#fff', width: '100%', textAlign: 'center' }}>JATAK DETAILS (BIRTH DETAILS)</Text>
                     </View>
@@ -323,34 +327,34 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     <View style={styles.chartContainer}>
                         <ChartSVG />
 
-                        {/* House Signs (Apexes) */}
-                        <Text style={[styles.chartLabel, { top: '4%', left: '46%' }]}>{data.chart.signs[1]}</Text>
-                        <Text style={[styles.chartLabel, { top: '2%', left: '15%' }]}>{data.chart.signs[2]}</Text>
-                        <Text style={[styles.chartLabel, { top: '15%', left: '2%' }]}>{data.chart.signs[3]}</Text>
-                        <Text style={[styles.chartLabel, { top: '48%', left: '4%' }]}>{data.chart.signs[4]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '15%', left: '2%' }]}>{data.chart.signs[5]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '2%', left: '15%' }]}>{data.chart.signs[6]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '4%', left: '46%' }]}>{data.chart.signs[7]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '2%', right: '15%' }]}>{data.chart.signs[8]}</Text>
-                        <Text style={[styles.chartLabel, { bottom: '15%', right: '2%' }]}>{data.chart.signs[9]}</Text>
-                        <Text style={[styles.chartLabel, { top: '48%', right: '4%' }]}>{data.chart.signs[10]}</Text>
-                        <Text style={[styles.chartLabel, { top: '15%', right: '2%' }]}>{data.chart.signs[11]}</Text>
-                        <Text style={[styles.chartLabel, { top: '2%', right: '15%' }]}>{data.chart.signs[12]}</Text>
+                        {/* House Signs (Apexes) - Moved deeper into corners to avoid planets */}
+                        <Text style={[styles.chartLabel, { top: '1%', left: '46.5%' }]}>{data.chart.signs[1]}</Text>
+                        <Text style={[styles.chartLabel, { top: '1%', left: '18%' }]}>{data.chart.signs[2]}</Text>
+                        <Text style={[styles.chartLabel, { top: '18%', left: '1%' }]}>{data.chart.signs[3]}</Text>
+                        <Text style={[styles.chartLabel, { top: '48%', left: '1%' }]}>{data.chart.signs[4]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '18%', left: '1%' }]}>{data.chart.signs[5]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '1%', left: '18%' }]}>{data.chart.signs[6]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '1%', left: '46.5%' }]}>{data.chart.signs[7]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '1%', right: '18%' }]}>{data.chart.signs[8]}</Text>
+                        <Text style={[styles.chartLabel, { bottom: '18%', right: '1%' }]}>{data.chart.signs[9]}</Text>
+                        <Text style={[styles.chartLabel, { top: '48%', right: '1%' }]}>{data.chart.signs[10]}</Text>
+                        <Text style={[styles.chartLabel, { top: '18%', right: '1%' }]}>{data.chart.signs[11]}</Text>
+                        <Text style={[styles.chartLabel, { top: '1%', right: '18%' }]}>{data.chart.signs[12]}</Text>
 
                         {/* Planets for all 12 Houses (Geometric Centroids) */}
                         {[
-                            { h: 1, top: '22%', left: '41%' },
-                            { h: 2, top: '6%', left: '15%' },
-                            { h: 3, top: '22%', left: '2%' },
-                            { h: 4, top: '46%', left: '15%' },
-                            { h: 5, top: '73%', left: '2%' },
-                            { h: 6, top: '89%', left: '15%' },
-                            { h: 7, top: '73%', left: '41%' },
-                            { h: 8, top: '89%', left: '66%' },
-                            { h: 9, top: '73%', left: '80%' },
-                            { h: 10, top: '46%', left: '66%' },
-                            { h: 11, top: '22%', left: '80%' },
-                            { h: 12, top: '6%', left: '66%' },
+                            { h: 1, top: '18%', left: '25%', width: '50%' },
+                            { h: 2, top: '6%', left: '10%', width: '30%' },
+                            { h: 3, top: '24%', left: '2%', width: '25%' },
+                            { h: 4, top: '40%', left: '5%', width: '35%' },
+                            { h: 5, top: '70%', left: '2%', width: '25%' },
+                            { h: 6, top: '85%', left: '10%', width: '30%' },
+                            { h: 7, top: '65%', left: '25%', width: '50%' },
+                            { h: 8, top: '85%', left: '60%', width: '30%' },
+                            { h: 9, top: '70%', right: '2%', width: '25%' },
+                            { h: 10, top: '40%', right: '5%', width: '35%' },
+                            { h: 11, top: '24%', right: '2%', width: '25%' },
+                            { h: 12, top: '6%', left: '60%', width: '30%' },
                         ].map((pos) => {
                             const planets = data.chart.houses[pos.h];
                             if (!planets || planets.length === 0) return null;
@@ -359,13 +363,15 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                     position: 'absolute',
                                     top: pos.top,
                                     left: pos.left,
-                                    fontSize: 6,
-                                    width: 45,
+                                    right: (pos as any).right,
+                                    fontSize: 8,
+                                    fontFamily: 'Helvetica-Bold',
+                                    width: pos.width,
                                     textAlign: 'center',
-                                    flexWrap: 'wrap',
-                                    lineHeight: 1.2
+                                    color: '#000000',
+                                    lineHeight: 1.1
                                 }}>
-                                    {planets.map(p => `${p.symbol} ${p.degree}`).join(' ')}
+                                    {planets.map(p => `${p.symbol}${p.degree}`).join(' ')}
                                 </Text>
                             );
                         })}
@@ -375,21 +381,26 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                 {/* Planetary Positions Table in PDF */}
                 {showPlanetaryPositions && (
-                    <View style={{ marginTop: 5 }}>
-                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 5 }}>Planetary Positions</Text>
+                    <View style={{ marginTop: 3 }}>
+                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 3 }}>Planetary Positions</Text>
                         <View style={[styles.table, { width: '100%' }]}>
                             <View style={[styles.row, { backgroundColor: '#f5f5f5' }]}>
-                                <Text style={[styles.cellLabel, { width: '25%' }]}>Planet</Text>
-                                <Text style={[styles.cellLabel, { width: '25%' }]}>Sign</Text>
-                                <Text style={[styles.cellLabel, { width: '20%' }]}>Degree</Text>
+                                <Text style={[styles.cellLabel, { width: '20%' }]}>Planet</Text>
+                                <Text style={[styles.cellLabel, { width: '20%' }]}>Sign</Text>
+                                <Text style={[styles.cellLabel, { width: '15%' }]}>Degree</Text>
                                 <Text style={[styles.cellLabel, { width: '30%' }]}>Nakshatra</Text>
+                                <Text style={[styles.cellLabel, { width: '15%' }]}>State</Text>
                             </View>
                             {data.planetaryPositions.map((p, idx) => (
                                 <View style={styles.row} key={idx}>
-                                    <Text style={[styles.cellValue, { width: '25%', fontFamily: 'Helvetica-Bold' }]}>{p.planet}</Text>
-                                    <Text style={[styles.cellValue, { width: '25%' }]}>{p.rashi}</Text>
-                                    <Text style={[styles.cellValue, { width: '20%' }]}>{p.position}°</Text>
+                                    <Text style={[styles.cellValue, { width: '20%', fontFamily: 'Helvetica-Bold' }]}>{p.planet}</Text>
+                                    <Text style={[styles.cellValue, { width: '20%' }]}>{p.rashi}</Text>
+                                    <Text style={[styles.cellValue, { width: '15%' }]}>{p.position}°</Text>
                                     <Text style={[styles.cellValue, { width: '30%' }]}>{p.nakshatra}</Text>
+                                    <Text style={[styles.cellValue, { width: '15%', color: '#000', fontSize: 7, flexWrap: 'wrap' }]}>
+                                        {p.isRetrograde ? 'Retrograde(Bakra)' : ''}
+                                        {p.isCombust ? (p.isRetrograde ? '\n' : '') + 'Combust(Asta)' : ''}
+                                    </Text>
                                 </View>
                             ))}
                         </View>
@@ -397,8 +408,8 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 )}
 
                 {/* Benefic / Malefic Section */}
-                <View style={{ marginTop: 5 }}>
-                    <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 5 }}>Benefic and Malefic Analysis</Text>
+                <View style={{ marginTop: 3 }}>
+                    <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 3 }}>Benefic and Malefic Analysis</Text>
                     {Object.entries(data.beneficMalefic)
                         .filter(([key]) => !EXCLUDED_BENEFICS.includes(key) && !['rootNumber', 'destinyNumber'].includes(key))
                         .map(([key, value]) => (
@@ -418,13 +429,13 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
             </Page>
 
             <Page size="A4" style={styles.page}>
-                <View style={{ position: 'absolute', top: 30, right: 30 }}>
+                <View style={{ position: 'absolute', top: 20, right: 25 }}>
                     <Text style={{ fontSize: 8, color: '#666' }}>Print date (MM-DD-YYYY): {new Date().toLocaleDateString()}</Text>
                 </View>
 
                 {/* Dasha Tables in PDF */}
-                <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontSize: 14, fontFamily: 'Helvetica-Bold', marginBottom: 10, textAlign: 'center', color: '#E35E18' }}>Dasha Period ({data.birthDetails.name})</Text>
+                <View style={{ marginTop: 10 }}>
+                    <Text style={{ fontSize: 13, fontFamily: 'Helvetica-Bold', marginBottom: 8, textAlign: 'center', color: '#E35E18' }}>Dasha Period ({data.birthDetails.name})</Text>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
                         {/* Vimshottari */}
@@ -432,10 +443,10 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                             <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Vimshottari Dasha</Text>
                             {data.vimshottariDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
-                                    <Text style={{ fontSize: 8, color: 'red' }}>
+                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
                                         Current: {data.vimshottariDasha.find(d => d.isCurrent)?.planet} ({data.vimshottariDasha.find(d => d.isCurrent)?.start} — {data.vimshottariDasha.find(d => d.isCurrent)?.end})
                                     </Text>
-                                    <Text style={{ fontSize: 8, color: 'red', marginLeft: 30 }}>
+                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.vimshottariDasha.find(d => d.isCurrent)?.end || '')}
                                     </Text>
                                 </View>
@@ -449,15 +460,15 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                 {data.vimshottariDasha.map((row, idx) => (
                                     <React.Fragment key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
-                                            <Text style={[styles.cellValue, { width: '40%', fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.planet}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
+                                            <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.planet}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
                                         </View>
                                         {row.subPeriods && row.subPeriods.map((sub, sIdx) => (
                                             <View key={`${idx}-${sIdx}`} style={[styles.row, { paddingVertical: 1, backgroundColor: sub.isCurrent ? '#fffbf0' : '#f9f9f9', paddingLeft: 6 }]}>
-                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>  &gt; {sub.planet}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>{sub.start}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>{sub.end}</Text>
+                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.planet}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
                                     </React.Fragment>
@@ -470,10 +481,10 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                             <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Yogini Dasha</Text>
                             {data.yoginiDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
-                                    <Text style={{ fontSize: 8, color: 'red' }}>
+                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
                                         Current: {data.yoginiDasha.find(d => d.isCurrent)?.dashaName} ({data.yoginiDasha.find(d => d.isCurrent)?.start} — {data.yoginiDasha.find(d => d.isCurrent)?.end})
                                     </Text>
-                                    <Text style={{ fontSize: 8, color: 'red', marginLeft: 30 }}>
+                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.yoginiDasha.find(d => d.isCurrent)?.end || '')}
                                     </Text>
                                 </View>
@@ -487,16 +498,16 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                 {data.yoginiDasha.map((row, idx) => (
                                     <React.Fragment key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
-                                            <Text style={[styles.cellValue, { width: '40%', fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.dashaName}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
+                                            <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.dashaName}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
                                         </View>
                                         {/* Sub Periods */}
                                         {row.subPeriods && row.subPeriods.map((sub, sIdx) => (
                                             <View key={`${idx}-${sIdx}`} style={[styles.row, { paddingVertical: 1, backgroundColor: sub.isCurrent ? '#fffbf0' : '#f9f9f9', paddingLeft: 6 }]}>
-                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>  &gt; {sub.dashaName}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>{sub.start}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 7, color: sub.isCurrent ? '#d97706' : '#666' }]}>{sub.end}</Text>
+                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.dashaName}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
                                     </React.Fragment>
@@ -508,7 +519,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                 {/* Mantras Section */}
                 {data.currentMantras && (
-                    <View style={{ marginTop: 20, padding: 10, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
+                    <View style={{ marginTop: 10, padding: 8, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
                         <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#d97706', textAlign: 'center' }}>Remedial Mantras</Text>
 
                         <View style={{ marginBottom: 8 }}>
@@ -525,7 +536,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                 {/* Prediction Section */}
                 {prediction && (
-                    <View style={{ marginTop: 20, padding: 15, backgroundColor: '#f9f9f9', borderRadius: 4, borderWidth: 1, borderColor: '#ccc' }}>
+                    <View style={{ marginTop: 10, padding: 12, backgroundColor: '#f9f9f9', borderRadius: 4, borderWidth: 1, borderColor: '#ccc' }}>
                         <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#333', textAlign: 'center' }}>Astrologer's Prediction</Text>
                         <Text style={{ fontSize: 10, color: '#333', lineHeight: 1.5 }}>
                             {prediction}
@@ -534,7 +545,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 )}
 
                 {/* Footer */}
-                <View style={{ position: 'absolute', bottom: 20, left: 30, right: 30, alignItems: 'flex-end' }}>
+                <View style={{ position: 'absolute', bottom: 20, left: 50, right: 25, alignItems: 'flex-end' }}>
                     <Text style={{ fontSize: 10, color: '#333', marginBottom: 2 }}>Created by</Text>
                     <Text style={{ fontSize: 9, color: '#333' }}>Name: Bhim Prasad Niroula |</Text>
                     <Text style={{ fontSize: 9, color: '#333' }}>Email: bhimniroula27@gmail.com |</Text>
@@ -542,6 +553,6 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     <Text style={{ fontSize: 8, color: '#fc4d4dff', marginTop: 4 }}>| Licensed |</Text>
                 </View>
             </Page>
-        </Document>
+        </Document >
     );
 };

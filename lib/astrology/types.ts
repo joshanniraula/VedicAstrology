@@ -31,6 +31,7 @@ export interface PlanetPosition {
     position: string;
     nakshatra: string;
     isRetrograde?: boolean;
+    isCombust?: boolean;
 }
 
 export interface ChartPlanet {

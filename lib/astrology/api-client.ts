@@ -390,11 +390,48 @@ export async function fetchKundaliData(input: {
 
         const bodies = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
 
+        const sunAstroTime = Astronomy.MakeTime(dateObj);
+        const sunVector = Astronomy.GeoVector("Sun" as Astronomy.Body, sunAstroTime, true);
+        const sunPos = Astronomy.Ecliptic(sunVector);
+        const sunSiderealLon = toSidereal(sunPos.elon, ayanamsa);
+
         let allPlanets = bodies.map(body => {
             const astroTime = Astronomy.MakeTime(dateObj);
+
+            // Current Position
             const result = Astronomy.GeoVector(body as Astronomy.Body, astroTime, true);
             const pos = Astronomy.Ecliptic(result);
             const siderealLon = toSidereal(pos.elon, ayanamsa);
+
+            // Check Retrograde: Compare with position 1 hour later
+            const laterTime = new Date(dateObj.getTime() + 60 * 60 * 1000);
+            const laterAstroTime = Astronomy.MakeTime(laterTime);
+            const laterResult = Astronomy.GeoVector(body as Astronomy.Body, laterAstroTime, true);
+            const laterPos = Astronomy.Ecliptic(laterResult);
+            const laterSiderealLon = toSidereal(laterPos.elon, ayanamsa);
+
+            // Handle degree wrapping (e.g. 359 -> 1)
+            let diff = laterSiderealLon - siderealLon;
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+            const isRetrograde = diff < 0;
+
+            // Check Combustion (Asta)
+            let isCombust = false;
+            if (body !== "Sun") {
+                const angleToSun = Math.abs(normalize(siderealLon - sunSiderealLon));
+                const distance = Math.min(angleToSun, 360 - angleToSun);
+
+                const combustionLimits: Record<string, number> = {
+                    "Moon": 12, "Mars": 17, "Jupiter": 11, "Saturn": 15,
+                    "Mercury": isRetrograde ? 12 : 14,
+                    "Venus": isRetrograde ? 8 : 10
+                };
+                if (combustionLimits[body] && distance <= combustionLimits[body]) {
+                    isCombust = true;
+                }
+            }
+
             const rashiData = getRashi(siderealLon);
             const nakData = getNakshatra(siderealLon);
 
@@ -404,7 +441,9 @@ export async function fetchKundaliData(input: {
                 rashi: rashiData.name,
                 position: rashiData.position.toFixed(2),
                 nakshatra: nakData.name,
-                nakshatraLord: nakData.lord
+                nakshatraLord: nakData.lord,
+                isRetrograde,
+                isCombust
             };
         });
 
@@ -418,7 +457,9 @@ export async function fetchKundaliData(input: {
         allPlanets.push({
             planet: "Rahu", sign_id: rahuRashi.signId, rashi: rahuRashi.name,
             position: rahuRashi.position.toFixed(2), nakshatra: rahuNak.name,
-            nakshatraLord: rahuNak.lord
+            nakshatraLord: rahuNak.lord,
+            isRetrograde: true, // Nodes are always retrograde
+            isCombust: false
         });
 
         const ketuRashi = getRashi(ketuSidereal);
@@ -426,7 +467,9 @@ export async function fetchKundaliData(input: {
         allPlanets.push({
             planet: "Ketu", sign_id: ketuRashi.signId, rashi: ketuRashi.name,
             position: ketuRashi.position.toFixed(2), nakshatra: ketuNak.name,
-            nakshatraLord: ketuNak.lord
+            nakshatraLord: ketuNak.lord,
+            isRetrograde: true, // Nodes are always retrograde
+            isCombust: false
         });
 
         // Ascendant
@@ -465,6 +508,8 @@ export async function fetchKundaliData(input: {
             rashi: ascData.name,
             position: ascData.position.toFixed(2),
             nakshatra: ascNak.name,
+            isRetrograde: false,
+            isCombust: false
             // nakshatraLord not strictly needed in list for now
         }];
 
