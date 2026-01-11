@@ -363,7 +363,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                     position: 'absolute',
                                     top: pos.top,
                                     left: pos.left,
-                                    right: (pos as any).right,
+                                    ...((pos as any).right ? { right: (pos as any).right } : {}),
                                     fontSize: 8,
                                     fontFamily: 'Helvetica-Bold',
                                     width: pos.width,
@@ -458,7 +458,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                     <Text style={[styles.cellLabel, { width: '30%' }]}>End</Text>
                                 </View>
                                 {data.vimshottariDasha.map((row, idx) => (
-                                    <React.Fragment key={idx}>
+                                    <View key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
                                             <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.planet}</Text>
                                             <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
@@ -471,7 +471,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                                 <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
-                                    </React.Fragment>
+                                    </View>
                                 ))}
                             </View>
                         </View>
@@ -496,7 +496,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                     <Text style={[styles.cellLabel, { width: '30%' }]}>End</Text>
                                 </View>
                                 {data.yoginiDasha.map((row, idx) => (
-                                    <React.Fragment key={idx}>
+                                    <View key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
                                             <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.dashaName}</Text>
                                             <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
@@ -510,7 +510,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                                 <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
-                                    </React.Fragment>
+                                    </View>
                                 ))}
                             </View>
                         </View>
@@ -524,12 +524,12 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                         <View style={{ marginBottom: 8 }}>
                             <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#92400e' }}>For Current Vimshottari ({data.currentMantras.vimshottari.planet}):</Text>
-                            <Text style={{ fontSize: 10, fontStyle: 'italic', marginTop: 2, color: '#333' }}>"{data.currentMantras.vimshottari.mantra}"</Text>
+                            <Text style={{ fontSize: 10, marginTop: 2, color: '#333' }}>"{data.currentMantras.vimshottari.mantra}"</Text>
                         </View>
 
                         <View>
                             <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#92400e' }}>For Current Yogini ({data.currentMantras.yogini.dasha}):</Text>
-                            <Text style={{ fontSize: 10, fontStyle: 'italic', marginTop: 2, color: '#333' }}>"{data.currentMantras.yogini.mantra}"</Text>
+                            <Text style={{ fontSize: 10, marginTop: 2, color: '#333' }}>"{data.currentMantras.yogini.mantra}"</Text>
                         </View>
                     </View>
                 )}
