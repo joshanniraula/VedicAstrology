@@ -15,7 +15,7 @@ export interface AvakahadaChakra {
     nakshatraCharan: string;
     nakshatraLord: string;
     yoga: string;
-    karna: string;
+    karana: string;
     gana: string;
     yoni: string;
     nadi: string;

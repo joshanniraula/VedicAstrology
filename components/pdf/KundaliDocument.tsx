@@ -229,6 +229,15 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
     ];
 
     // Helper to format planets (max 2 per line)
+    // Dynamic Font Sizes based on hidden planetary positions
+    const isHidden = !showPlanetaryPositions;
+    // Bumped up sizes as requested
+    const fsStandard = isHidden ? 12 : 9;       // Normal text (Birth details, Benefic values)
+    const fsSmall = isHidden ? 11 : 8;          // Smaller text (Avakahada)
+    const fsHeader = isHidden ? 13 : 10;        // Table Headers
+    const fsSectionTitle = isHidden ? 14 : 11;  // Section Titles
+    const fsPrediction = isHidden ? 12 : 10;    // Prediction Body
+
     const formatPlanets = (planets: any[]) => {
         const rows = [];
         for (let i = 0; i < planets.length; i += 2) {
@@ -266,45 +275,45 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Birth Details Table */}
                 <View style={{ marginBottom: 10, borderWidth: 1, borderColor: '#000' }}>
                     <View style={{ flexDirection: 'row', backgroundColor: '#FF9933', padding: 4, borderBottomWidth: 1, borderBottomColor: '#000' }}>
-                        <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#fff', width: '100%', textAlign: 'center' }}>JATAK DETAILS (BIRTH DETAILS)</Text>
+                        <Text style={{ fontSize: fsHeader, fontFamily: 'Helvetica-Bold', color: '#fff', width: '100%', textAlign: 'center' }}>JATAK DETAILS (BIRTH DETAILS)</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>Name</Text>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Name</Text>
                         </View>
                         <View style={{ width: '30%', padding: 4, borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9 }}>{data.birthDetails.name}</Text>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.name}</Text>
                         </View>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>Date (YYYY-MM-DD)</Text>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Date (YYYY-MM-DD)</Text>
                         </View>
                         <View style={{ width: '30%', padding: 4 }}>
-                            <Text style={{ fontSize: 9 }}>{data.birthDetails.date}</Text>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.date}</Text>
                         </View>
                     </View>
 
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>Time</Text>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Time</Text>
                         </View>
                         <View style={{ width: '30%', padding: 4, borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9 }}>{data.birthDetails.time}</Text>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.time}</Text>
                         </View>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>Place</Text>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Place</Text>
                         </View>
                         <View style={{ width: '30%', padding: 4 }}>
-                            <Text style={{ fontSize: 9 }}>{data.birthDetails.place}, {data.birthDetails.country}</Text>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.place}, {data.birthDetails.country}</Text>
                         </View>
                     </View>
 
                     <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#ccc' }}>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
-                            <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold' }}>Current Age</Text>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Current Age</Text>
                         </View>
                         <View style={{ width: '80%', padding: 4 }}>
-                            <Text style={{ fontSize: 9 }}>{calculateAge(data.birthDetails.date)}</Text>
+                            <Text style={{ fontSize: fsStandard }}>{calculateAge(data.birthDetails.date)}</Text>
                         </View>
                     </View>
                 </View>
@@ -313,7 +322,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     {/* Avakahada Chakra Table */}
                     <View style={styles.table}>
                         <View style={[styles.row, { backgroundColor: '#ffe0b2' }]}>
-                            <Text style={[styles.cellLabel, { width: '100%', textAlign: 'center' }]}>Avakahada Chakra</Text>
+                            <Text style={[styles.cellLabel, { width: '100%', textAlign: 'center', fontSize: fsSmall }]}>Avakahada Chakra</Text>
                         </View>
                         {Object.entries(data.avakahada).map(([key, value]) => {
                             const formatKey = (k: string) => {
@@ -323,10 +332,10 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                             };
                             return (
                                 <View style={styles.row} key={key}>
-                                    <Text style={styles.cellLabel}>
+                                    <Text style={[styles.cellLabel, { fontSize: fsSmall }]}>
                                         {formatKey(key)}
                                     </Text>
-                                    <Text style={styles.cellValue}>{value}</Text>
+                                    <Text style={[styles.cellValue, { fontSize: fsSmall }]}>{value}</Text>
                                 </View>
                             );
                         })}
@@ -418,15 +427,15 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                 {/* Benefic / Malefic Section */}
                 <View style={{ marginTop: 3 }}>
-                    <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 3 }}>Benefic and Malefic Analysis</Text>
+                    <Text style={{ fontSize: fsSectionTitle, fontFamily: 'Helvetica-Bold', marginBottom: 3 }}>Benefic and Malefic Analysis</Text>
                     {Object.entries(data.beneficMalefic)
                         .filter(([key]) => !EXCLUDED_BENEFICS.includes(key) && !['rootNumber', 'destinyNumber'].includes(key))
                         .map(([key, value]) => (
                             <View style={styles.beneficRow} key={key}>
-                                <Text style={styles.beneficLabel}>
+                                <Text style={[styles.beneficLabel, { fontSize: fsStandard }]}>
                                     {key.replace(/([A-Z])/g, ' $1').trim().replace(/^./, str => str.toUpperCase())}:
                                 </Text>
-                                <Text style={styles.beneficValue}>{value}</Text>
+                                <Text style={[styles.beneficValue, { fontSize: fsStandard }]}>{value}</Text>
                             </View>
                         ))}
                 </View>
@@ -449,35 +458,35 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
                         {/* Vimshottari */}
                         <View style={{ width: '47%' }}>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Vimshottari MahaDasha</Text>
+                            <Text style={{ fontSize: fsHeader, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Vimshottari MahaDasha</Text>
                             {data.vimshottariDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
-                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
+                                    <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: 'red' }}>
                                         {data.vimshottariDasha.find(d => d.isCurrent)?.planet} ({data.vimshottariDasha.find(d => d.isCurrent)?.start} — {data.vimshottariDasha.find(d => d.isCurrent)?.end})
                                     </Text>
-                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
+                                    <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.vimshottariDasha.find(d => d.isCurrent)?.end || '')}
                                     </Text>
                                 </View>
                             )}
                             <View style={[styles.table, { width: '100%' }]}>
                                 <View style={[styles.row, { backgroundColor: '#f5f5f5' }]}>
-                                    <Text style={[styles.cellLabel, { width: '40%' }]}>Planet</Text>
-                                    <Text style={[styles.cellLabel, { width: '30%' }]}>Start</Text>
-                                    <Text style={[styles.cellLabel, { width: '30%' }]}>End</Text>
+                                    <Text style={[styles.cellLabel, { width: '40%', fontSize: fsSmall }]}>Planet</Text>
+                                    <Text style={[styles.cellLabel, { width: '30%', fontSize: fsSmall }]}>Start</Text>
+                                    <Text style={[styles.cellLabel, { width: '30%', fontSize: fsSmall }]}>End</Text>
                                 </View>
                                 {data.vimshottariDasha.map((row, idx) => (
                                     <View key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
-                                            <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.planet}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
+                                            <Text style={[styles.cellValue, { width: '40%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.planet}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
                                         </View>
                                         {row.subPeriods && row.subPeriods.map((sub, sIdx) => (
                                             <View key={`${idx}-${sIdx}`} style={[styles.row, { paddingVertical: 1, backgroundColor: sub.isCurrent ? '#fffbf0' : '#f9f9f9', paddingLeft: 6 }]}>
-                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.planet}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
+                                                <Text style={[styles.cellValue, { width: '40%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.planet}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
                                     </View>
@@ -487,36 +496,36 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                         {/* Yogini */}
                         <View style={{ width: '47%' }}>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Yogini MahaDasha</Text>
+                            <Text style={{ fontSize: fsHeader, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Yogini MahaDasha</Text>
                             {data.yoginiDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
-                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
+                                    <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: 'red' }}>
                                         {data.yoginiDasha.find(d => d.isCurrent)?.dashaName} ({data.yoginiDasha.find(d => d.isCurrent)?.start} — {data.yoginiDasha.find(d => d.isCurrent)?.end})
                                     </Text>
-                                    <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
+                                    <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.yoginiDasha.find(d => d.isCurrent)?.end || '')}
                                     </Text>
                                 </View>
                             )}
                             <View style={[styles.table, { width: '100%' }]}>
                                 <View style={[styles.row, { backgroundColor: '#f5f5f5' }]}>
-                                    <Text style={[styles.cellLabel, { width: '40%' }]}>Dasha</Text>
-                                    <Text style={[styles.cellLabel, { width: '30%' }]}>Start</Text>
-                                    <Text style={[styles.cellLabel, { width: '30%' }]}>End</Text>
+                                    <Text style={[styles.cellLabel, { width: '40%', fontSize: fsSmall }]}>Dasha</Text>
+                                    <Text style={[styles.cellLabel, { width: '30%', fontSize: fsSmall }]}>Start</Text>
+                                    <Text style={[styles.cellLabel, { width: '30%', fontSize: fsSmall }]}>End</Text>
                                 </View>
                                 {data.yoginiDasha.map((row, idx) => (
                                     <View key={idx}>
                                         <View style={[styles.row, { paddingVertical: 2, backgroundColor: row.isCurrent ? '#fff0f0' : 'transparent' }]}>
-                                            <Text style={[styles.cellValue, { width: '40%', fontSize: 9.5, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.dashaName}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
-                                            <Text style={[styles.cellValue, { width: '30%', fontSize: 9, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
+                                            <Text style={[styles.cellValue, { width: '40%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.dashaName}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.start}</Text>
+                                            <Text style={[styles.cellValue, { width: '30%', fontSize: fsStandard, fontFamily: 'Helvetica-Bold', color: row.isCurrent ? 'red' : 'black' }]}>{row.end}</Text>
                                         </View>
                                         {/* Sub Periods */}
                                         {row.subPeriods && row.subPeriods.map((sub, sIdx) => (
                                             <View key={`${idx}-${sIdx}`} style={[styles.row, { paddingVertical: 1, backgroundColor: sub.isCurrent ? '#fffbf0' : '#f9f9f9', paddingLeft: 6 }]}>
-                                                <Text style={[styles.cellValue, { width: '40%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.dashaName}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
-                                                <Text style={[styles.cellValue, { width: '30%', fontSize: 8, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
+                                                <Text style={[styles.cellValue, { width: '40%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>  &gt; {sub.dashaName}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.start}</Text>
+                                                <Text style={[styles.cellValue, { width: '30%', fontSize: fsSmall, fontFamily: 'Helvetica-Bold', color: sub.isCurrent ? '#d97706' : '#444' }]}>{sub.end}</Text>
                                             </View>
                                         ))}
                                     </View>
@@ -529,31 +538,25 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Mantras Section */}
                 {data.currentMantras && (
                     <View style={{ marginTop: 10, padding: 8, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
-                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}>Remedial Mantras</Text>
+                        <Text style={{ fontSize: fsSectionTitle, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}>Mantras</Text>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '48%' }}>
-                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Vimshottari Dasha:</Text>
-                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.vimshottari.planet}):</Text>
-                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
+                                <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
 
                                 {data.currentMantras.vimshottari.subPlanet && (
                                     <View>
-                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.vimshottari.subPlanet}):</Text>
-                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
+                                        <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
                                     </View>
                                 )}
                             </View>
 
                             <View style={{ width: '48%' }}>
-                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Yogini Dasha:</Text>
-                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.yogini.dasha}):</Text>
-                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
+                                <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
 
                                 {data.currentMantras.yogini.subDasha && (
                                     <View>
-                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.yogini.subDasha}):</Text>
-                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
+                                        <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
                                     </View>
                                 )}
                             </View>
@@ -564,8 +567,8 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Prediction Section */}
                 {prediction && (
                     <View style={{ marginTop: 10, padding: 12, backgroundColor: '#f9f9f9', borderRadius: 4, borderWidth: 1, borderColor: '#ccc' }}>
-                        <Text style={{ fontSize: 15, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#333', textAlign: 'center' }}>Prediction</Text>
-                        <Text style={{ fontSize: 10, color: '#333', lineHeight: 1.5 }}>
+                        <Text style={{ fontSize: fsSectionTitle, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#333', textAlign: 'center' }}>Prediction</Text>
+                        <Text style={{ fontSize: fsPrediction, color: '#333', lineHeight: 1.5 }}>
                             {prediction}
                         </Text>
                     </View>

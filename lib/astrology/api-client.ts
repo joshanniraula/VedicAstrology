@@ -723,7 +723,7 @@ export async function fetchKundaliData(input: {
                 nakshatraCharan: `${moonNakFull.name} - ${moonNakFull.pada}`,
                 nakshatraLord: moonNakFull.lord,
                 yoga: yogaName,
-                karna: karanaName,
+                karana: karanaName,
                 gana: nakDetail.gana,
                 yoni: nakDetail.yoni,
                 nadi: nakDetail.nadi,
