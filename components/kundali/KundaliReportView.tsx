@@ -265,13 +265,25 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                                     <span className="text-6xl text-amber-500">🕉️</span>
                                 </div>
                                 <h4 className="text-amber-300 font-medium text-sm uppercase tracking-wider mb-2">
-                                    For {data.currentMantras.vimshottari.planet} (Vimshottari)
+                                    Mahadasha: {data.currentMantras.vimshottari.planet}
                                 </h4>
-                                <p className="text-xl font-serif text-indigo-100 leading-relaxed italic">
+                                <p className="text-lg font-serif text-indigo-100 leading-relaxed italic mb-4">
                                     "{data.currentMantras.vimshottari.mantra}"
                                 </p>
-                                <div className="mt-3 text-xs text-indigo-400">
-                                    Recite this mantra to strengthen the positive effects of the current dasha.
+
+                                {data.currentMantras.vimshottari.subPlanet && data.currentMantras.vimshottari.subMantra && (
+                                    <div className="mt-4 pt-4 border-t border-amber-500/20">
+                                        <h4 className="text-amber-300/80 font-medium text-xs uppercase tracking-wider mb-1">
+                                            Antardasha: {data.currentMantras.vimshottari.subPlanet}
+                                        </h4>
+                                        <p className="text-base font-serif text-indigo-200 leading-relaxed italic">
+                                            "{data.currentMantras.vimshottari.subMantra}"
+                                        </p>
+                                    </div>
+                                )}
+
+                                <div className="mt-4 text-[10px] text-indigo-400">
+                                    Recite these mantras to balance the effects of the current dasha periods.
                                 </div>
                             </div>
 
@@ -281,13 +293,25 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                                     <span className="text-6xl text-amber-500">🧘</span>
                                 </div>
                                 <h4 className="text-amber-300 font-medium text-sm uppercase tracking-wider mb-2">
-                                    For {data.currentMantras.yogini.dasha} (Yogini)
+                                    Mahadasha: {data.currentMantras.yogini.dasha}
                                 </h4>
-                                <p className="text-xl font-serif text-indigo-100 leading-relaxed italic">
+                                <p className="text-lg font-serif text-indigo-100 leading-relaxed italic mb-4">
                                     "{data.currentMantras.yogini.mantra}"
                                 </p>
-                                <div className="mt-3 text-xs text-indigo-400">
-                                    Specific mantra for the current Yogini dasha period.
+
+                                {data.currentMantras.yogini.subDasha && data.currentMantras.yogini.subMantra && (
+                                    <div className="mt-4 pt-4 border-t border-amber-500/20">
+                                        <h4 className="text-amber-300/80 font-medium text-xs uppercase tracking-wider mb-1">
+                                            Antardasha: {data.currentMantras.yogini.subDasha}
+                                        </h4>
+                                        <p className="text-base font-serif text-indigo-200 leading-relaxed italic">
+                                            "{data.currentMantras.yogini.subMantra}"
+                                        </p>
+                                    </div>
+                                )}
+
+                                <div className="mt-4 text-[10px] text-indigo-400">
+                                    Mantras to strengthen the current Yogini dasha influence.
                                 </div>
                             </div>
                         </div>

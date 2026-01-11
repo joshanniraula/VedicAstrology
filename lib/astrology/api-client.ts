@@ -763,11 +763,15 @@ export async function fetchKundaliData(input: {
             currentMantras: {
                 vimshottari: {
                     planet: currentVimPlanet,
-                    mantra: vimMantra
+                    mantra: vimMantra,
+                    subPlanet: currentVim?.subPeriods?.find((s: any) => s.isCurrent)?.planet,
+                    subMantra: (MANTRAS.planets as any)[currentVim?.subPeriods?.find((s: any) => s.isCurrent)?.planet || ""]?.beej
                 },
                 yogini: {
                     dasha: currentYoginiName,
-                    mantra: yoginiMantra
+                    mantra: yoginiMantra,
+                    subDasha: currentYogini?.subPeriods?.find((s: any) => s.isCurrent)?.dashaName,
+                    subMantra: (MANTRAS.yoginis as any)[currentYogini?.subPeriods?.find((s: any) => s.isCurrent)?.dashaName || ""]
                 }
             }
         };

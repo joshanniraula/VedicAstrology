@@ -118,10 +118,14 @@ export interface KundaliReport {
         vimshottari: {
             planet: string;
             mantra: string;
+            subPlanet?: string;
+            subMantra?: string;
         };
         yogini: {
             dasha: string;
             mantra: string;
+            subDasha?: string;
+            subMantra?: string;
         };
     };
 }

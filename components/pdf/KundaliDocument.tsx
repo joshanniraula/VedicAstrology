@@ -435,16 +435,16 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                 {/* Dasha Tables in PDF */}
                 <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontSize: 13, fontFamily: 'Helvetica-Bold', marginBottom: 8, textAlign: 'center', color: '#E35E18' }}>Dasha Period ({data.birthDetails.name})</Text>
+                    <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 8, textAlign: 'left', color: '#E35E18' }}>({data.birthDetails.name})</Text>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap: 'nowrap', alignItems: 'flex-start' }}>
                         {/* Vimshottari */}
                         <View style={{ width: '47%' }}>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Vimshottari Dasha</Text>
+                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Vimshottari MahaDasha</Text>
                             {data.vimshottariDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
                                     <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
-                                        Current: {data.vimshottariDasha.find(d => d.isCurrent)?.planet} ({data.vimshottariDasha.find(d => d.isCurrent)?.start} — {data.vimshottariDasha.find(d => d.isCurrent)?.end})
+                                        {data.vimshottariDasha.find(d => d.isCurrent)?.planet} ({data.vimshottariDasha.find(d => d.isCurrent)?.start} — {data.vimshottariDasha.find(d => d.isCurrent)?.end})
                                     </Text>
                                     <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.vimshottariDasha.find(d => d.isCurrent)?.end || '')}
@@ -478,11 +478,11 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                         {/* Yogini */}
                         <View style={{ width: '47%' }}>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Yogini Dasha</Text>
+                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', marginBottom: 4 }}>Yogini MahaDasha</Text>
                             {data.yoginiDasha.find(d => d.isCurrent) && (
                                 <View style={{ marginBottom: 4 }}>
                                     <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red' }}>
-                                        Current: {data.yoginiDasha.find(d => d.isCurrent)?.dashaName} ({data.yoginiDasha.find(d => d.isCurrent)?.start} — {data.yoginiDasha.find(d => d.isCurrent)?.end})
+                                        {data.yoginiDasha.find(d => d.isCurrent)?.dashaName} ({data.yoginiDasha.find(d => d.isCurrent)?.start} — {data.yoginiDasha.find(d => d.isCurrent)?.end})
                                     </Text>
                                     <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: 'red', marginLeft: 30 }}>
                                         {calculateTimeLeft(data.yoginiDasha.find(d => d.isCurrent)?.end || '')}
@@ -520,16 +520,34 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Mantras Section */}
                 {data.currentMantras && (
                     <View style={{ marginTop: 10, padding: 8, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
-                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#d97706', textAlign: 'center' }}>Remedial Mantras</Text>
+                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}>Remedial Mantras</Text>
 
-                        <View style={{ marginBottom: 8 }}>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#92400e' }}>For Current Vimshottari ({data.currentMantras.vimshottari.planet}):</Text>
-                            <Text style={{ fontSize: 10, marginTop: 2, color: '#333' }}>"{data.currentMantras.vimshottari.mantra}"</Text>
-                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ width: '48%' }}>
+                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Vimshottari Dasha:</Text>
+                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.vimshottari.planet}):</Text>
+                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
 
-                        <View>
-                            <Text style={{ fontSize: 10, fontFamily: 'Helvetica-Bold', color: '#92400e' }}>For Current Yogini ({data.currentMantras.yogini.dasha}):</Text>
-                            <Text style={{ fontSize: 10, marginTop: 2, color: '#333' }}>"{data.currentMantras.yogini.mantra}"</Text>
+                                {data.currentMantras.vimshottari.subPlanet && (
+                                    <View>
+                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.vimshottari.subPlanet}):</Text>
+                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
+                                    </View>
+                                )}
+                            </View>
+
+                            <View style={{ width: '48%' }}>
+                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Yogini Dasha:</Text>
+                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.yogini.dasha}):</Text>
+                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
+
+                                {data.currentMantras.yogini.subDasha && (
+                                    <View>
+                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.yogini.subDasha}):</Text>
+                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
+                                    </View>
+                                )}
+                            </View>
                         </View>
                     </View>
                 )}
@@ -537,7 +555,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Prediction Section */}
                 {prediction && (
                     <View style={{ marginTop: 10, padding: 12, backgroundColor: '#f9f9f9', borderRadius: 4, borderWidth: 1, borderColor: '#ccc' }}>
-                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#333', textAlign: 'center' }}>Astrologer's Prediction</Text>
+                        <Text style={{ fontSize: 15, fontFamily: 'Helvetica-Bold', marginBottom: 8, color: '#333', textAlign: 'center' }}>Prediction</Text>
                         <Text style={{ fontSize: 10, color: '#333', lineHeight: 1.5 }}>
                             {prediction}
                         </Text>
