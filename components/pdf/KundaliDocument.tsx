@@ -529,7 +529,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Mantras Section */}
                 {data.currentMantras && (
                     <View style={{ marginTop: 10, padding: 8, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
-                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}>Remedial Mantras</Text>
+                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}> Mantras</Text>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '48%' }}>
