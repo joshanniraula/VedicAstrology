@@ -1,39 +1,39 @@
 {
     "planets": {
         "Sun": {
-            "beej": "Om Hram Hreem Hraum Sah Suryaya Namah",
+            "beej": "Om Sum Suryaya Namah||",
             "deity": "Surya"
         },
         "Moon": {
-            "beej": "Om Shram Shreem Shraum Sah Chandraya Namah",
+            "beej": "Om Shram Shreem Shraum Sah Chandraya Namah||",
             "deity": "Chandra"
         },
         "Mars": {
-            "beej": "Om Kram Kreem Kraum Sah Bhaumaya Namah",
+            "beej": "Om Kram Kreem Kraum Sah Bhaumaya Namah||",
             "deity": "Mangal"
         },
         "Mercury": {
-            "beej": "Om Bram Breem Braum Sah Budhaya Namah",
+            "beej": "Om Bram Breem Braum Sah Budhaya Namah||",
             "deity": "Budh"
         },
         "Jupiter": {
-            "beej": "Om Gram Greem Graum Sah Gurave Namah",
+            "beej": "Om Gram Greem Graum Sah Gurave Namah||",
             "deity": "Brihaspati"
         },
         "Venus": {
-            "beej": "Om Dram Dreem Draum Sah Shukraya Namah",
+            "beej": "Om Dram Dreem Draum Sah Shukraya Namah||",
             "deity": "Shukra"
         },
         "Saturn": {
-            "beej": "Om Pram Preem Praum Sah Shanaishcharaya Namah",
+            "beej": "Om Pram Preem Praum Sah Shanaishcharaya Namah||",
             "deity": "Shani"
         },
         "Rahu": {
-            "beej": "Om Bhram Bhreem Bhraum Sah Rahave Namah",
+            "beej": "Om Bhram Bhreem Bhraum Sah Rahave Namah||",
             "deity": "Rahu"
         },
         "Ketu": {
-            "beej": "Om Stram Streem Straum Sah Ketave Namah",
+            "beej": "Om Stram Streem Straum Sah Ketave Namah||",
             "deity": "Ketu"
         }
     },
