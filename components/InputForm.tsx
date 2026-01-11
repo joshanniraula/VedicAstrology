@@ -72,9 +72,10 @@ export function InputForm() {
             setReportData(report);
             setIsDialogOpen(true);
             reset();
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to generate Kundali:", error);
-            alert("Failed to generate Kundali. Please try again.");
+            const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred. Please try again.";
+            alert(`Failed to generate Kundali: ${errorMessage}`);
         }
     }
 

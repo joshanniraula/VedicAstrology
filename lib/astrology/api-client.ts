@@ -16,26 +16,42 @@ function normalize(deg: number): number {
     return deg;
 }
 
-// Geocoding Helper
 async function getCoordinates(place: string): Promise<{ lat: number, lon: number }> {
-    // Removed try-catch to allow error propagation
+    console.log(`Geocoding place: ${place}`);
     const query = encodeURIComponent(place.trim());
+    // Use a more unique User-Agent and include a contact if possible
     const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`;
 
-    const response = await fetch(url, {
-        headers: { 'User-Agent': 'VedicAstrologyApp/1.0' }
-    });
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'User-Agent': 'VedicAstrologyApp/1.0 (contact: admin@bhimniroula.netlify.app)',
+                'Accept-Language': 'en'
+            }
+        });
 
-    if (!response.ok) throw new Error("Geocoding failed");
+        if (!response.ok) {
+            console.error(`Geocoding API responded with status: ${response.status}`);
+            throw new Error(`Geocoding service unavailable (Status: ${response.status})`);
+        }
 
-    const data = await response.json();
-    if (Array.isArray(data) && data.length > 0) {
-        return {
-            lat: parseFloat(data[0].lat),
-            lon: parseFloat(data[0].lon)
-        };
+        const data = await response.json();
+        console.log(`Geocoding response received:`, data);
+
+        if (Array.isArray(data) && data.length > 0) {
+            return {
+                lat: parseFloat(data[0].lat),
+                lon: parseFloat(data[0].lon)
+            };
+        }
+        throw new Error("Location not found. Please try a different city name.");
+    } catch (err: any) {
+        console.error("Geocoding fetch error:", err);
+        if (err.message.includes("fetch failed")) {
+            throw new Error("Network error while looking up location. Please check your internet connection.");
+        }
+        throw err;
     }
-    throw new Error("Place not found");
 }
 
 // --- Constants & Data ---
@@ -375,7 +391,8 @@ export async function fetchKundaliData(input: {
         const bodies = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
 
         let allPlanets = bodies.map(body => {
-            const result = Astronomy.GeoVector(body as Astronomy.Body, dateObj, true);
+            const astroTime = Astronomy.MakeTime(dateObj);
+            const result = Astronomy.GeoVector(body as Astronomy.Body, astroTime, true);
             const pos = Astronomy.Ecliptic(result);
             const siderealLon = toSidereal(pos.elon, ayanamsa);
             const rashiData = getRashi(siderealLon);
@@ -456,7 +473,8 @@ export async function fetchKundaliData(input: {
         const nakshatraName = moonData?.nakshatra || "Unknown";
 
         // Find Moon longitude
-        const moonResult = Astronomy.GeoVector("Moon" as Astronomy.Body, dateObj, true);
+        const astroTimeMoon = Astronomy.MakeTime(dateObj);
+        const moonResult = Astronomy.GeoVector("Moon" as Astronomy.Body, astroTimeMoon, true);
         const moonPos = Astronomy.Ecliptic(moonResult);
         const moonSidereal = toSidereal(moonPos.elon, ayanamsa);
         const moonNakFull = getNakshatra(moonSidereal);
@@ -464,7 +482,8 @@ export async function fetchKundaliData(input: {
         const numerology = getNumerology(input.date);
 
         // Calculate Yoga & Karana
-        const sunResult = Astronomy.GeoVector("Sun" as Astronomy.Body, dateObj, true);
+        const astroTimeSun = Astronomy.MakeTime(dateObj);
+        const sunResult = Astronomy.GeoVector("Sun" as Astronomy.Body, astroTimeSun, true);
         const sunPosEco = Astronomy.Ecliptic(sunResult);
         const sunSidereal = toSidereal(sunPosEco.elon, ayanamsa);
 
