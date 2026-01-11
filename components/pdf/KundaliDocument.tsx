@@ -251,7 +251,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     {/* 3. Text (Center) */}
                     <View style={styles.headerTextContainer}>
                         <Text style={styles.om}>|| श्री गणेशाय नमः ||</Text>
-                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', color: '#E35E18', textAlign: 'center', textTransform: 'uppercase' }}>Monjusatya Astrologer Center</Text>
+                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', color: '#E35E18', textAlign: 'center', textTransform: 'uppercase' }}>Monjusatya Astrology Center</Text>
                         <Text style={{ fontSize: 9, color: '#333', marginBottom: 2, textAlign: 'center' }}>Kathmandu, Nepal</Text>
                         <Text style={styles.title}>|| अथ जन्मकुंडली: ||</Text>
                     </View>
