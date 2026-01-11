@@ -1,50 +1,50 @@
 {
     "planets": {
         "Sun": {
-            "beej": "Om Sum Suryaya Namah||",
+            "beej": "Om Sum Suryaya Namah:",
             "deity": "Surya"
         },
         "Moon": {
-            "beej": "Om Shram Shreem Shraum Sah Chandraya Namah||",
+            "beej": "Om Som Somaya Namah:",
             "deity": "Chandra"
         },
         "Mars": {
-            "beej": "Om Kram Kreem Kraum Sah Bhaumaya Namah||",
+            "beej": "Om Am Angarakkaya Namah:",
             "deity": "Mangal"
         },
         "Mercury": {
-            "beej": "Om Bram Breem Braum Sah Budhaya Namah||",
+            "beej": "Om Bum Budhaya Namah:",
             "deity": "Budh"
         },
         "Jupiter": {
-            "beej": "Om Gram Greem Graum Sah Gurave Namah||",
+            "beej": "Om Brim Brihaspataya Namah:",
             "deity": "Brihaspati"
         },
         "Venus": {
-            "beej": "Om Dram Dreem Draum Sah Shukraya Namah||",
+            "beej": "Om Sum Shukraya Namah:",
             "deity": "Shukra"
         },
         "Saturn": {
-            "beej": "Om Pram Preem Praum Sah Shanaishcharaya Namah||",
+            "beej": "Om Sam Shanaishcharaya Namah||",
             "deity": "Shani"
         },
         "Rahu": {
-            "beej": "Om Bhram Bhreem Bhraum Sah Rahave Namah||",
+            "beej": "Om Ram Rahawe Namah:",
             "deity": "Rahu"
         },
         "Ketu": {
-            "beej": "Om Stram Streem Straum Sah Ketave Namah||",
+            "beej": "Om Kem Ketawe Namah:",
             "deity": "Ketu"
         }
     },
     "yoginis": {
-        "Mangala": "Om Hreem Shreem Mangala Devyai Namah",
-        "Pingala": "Om Hreem Phat Pingala Devyai Namah",
-        "Dhanya": "Om Hreem Shreem Dhanya Devyai Namah",
-        "Bhramari": "Om Hreem Phat Bhramari Devyai Namah",
-        "Bhadrika": "Om Hreem Bhadrika Devyai Namah",
-        "Ulka": "Om Hreem Krom Ulka Devyai Namah",
-        "Siddha": "Om Hreem Shreem Siddha Devyai Namah",
-        "Sankata": "Om Hreem Sankata Devyai Namah"
+        "Mangala": "Om Klim Mangalayei Namah:",
+        "Pingala": "Om Gloum Pingalayei Namah:",
+        "Dhanya": "Om Hrim Dhanyayei Namah:",
+        "Bhramari": "Om Aeim Bhramaryei Namah:",
+        "Bhadrika": "Om Shrim Vhadrikayei Namah:",
+        "Ulka": "Om Hrim Ulkayei Namah:",
+        "Siddha": "Om Sidhe Siddhidehi Namah:",
+        "Sankata": "Om Hrim Sankata Santidehi Me Sawah:"
     }
 }

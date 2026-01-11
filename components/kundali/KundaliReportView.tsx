@@ -11,19 +11,92 @@ interface KundaliReportViewProps {
     data: KundaliReport;
 }
 
-export function KundaliReportView({ data }: KundaliReportViewProps) {
-    const [showPlanetaryPositions, setShowPlanetaryPositions] = useState(true);
-    const [prediction, setPrediction] = useState('');
-    const [debouncedPrediction, setDebouncedPrediction] = useState('');
 
-    // Debounce prediction for PDF generation to prevent lag
+// Memoized Download Button Component
+const DownloadReportButton = React.memo(({ data, prediction, showPlanetaryPositions }: { data: KundaliReport, prediction: string, showPlanetaryPositions: boolean }) => {
+    return (
+        <BlobProvider
+            key={`${data.birthDetails.name}-${prediction.length}`}
+            document={<KundaliDocument data={data} showPlanetaryPositions={showPlanetaryPositions} prediction={prediction} />}
+        >
+            {({ url, loading, error }) => {
+                if (error) {
+                    console.error("PDF Generation Error:", error);
+                }
+                return (
+                    <a
+                        href={url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                            if (!url) {
+                                e.preventDefault();
+                                alert("PDF is still generating or failed. Please check console for details.");
+                            }
+                        }}
+                        className={`
+                        inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all
+                        ${loading
+                                ? 'bg-zinc-700 text-zinc-400 cursor-wait'
+                                : error
+                                    ? 'bg-red-600 text-white cursor-not-allowed'
+                                    : 'bg-amber-600 hover:bg-amber-700 text-white hover:scale-105 shadow-lg shadow-amber-900/20'}
+                    `}
+                    >
+                        {loading ? (
+                            <span>Generating PDF...</span>
+                        ) : error ? (
+                            <span>Generation Failed</span>
+                        ) : (
+                            <>
+                                <Download className="w-5 h-5" />
+                                Download Full Report
+                            </>
+                        )}
+                    </a>
+                )
+            }}
+        </BlobProvider>
+    );
+});
+
+DownloadReportButton.displayName = 'DownloadReportButton';
+
+// Memoized Prediction Panel to isolate typing state
+const PredictionPanel = React.memo(({ onDebouncedChange }: { onDebouncedChange: (val: string) => void }) => {
+    const [prediction, setPrediction] = useState('');
+
+    // Debounce internal state to parent
     React.useEffect(() => {
         const timer = setTimeout(() => {
-            setDebouncedPrediction(prediction);
-        }, 1000); // Wait 1 second after typing stops
+            onDebouncedChange(prediction);
+        }, 500); // 500ms is enough for a smooth feel
 
         return () => clearTimeout(timer);
-    }, [prediction]);
+    }, [prediction, onDebouncedChange]);
+
+    return (
+        <div className="space-y-4">
+            <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2">Prediction</h3>
+            <textarea
+                className="w-full h-[400px] bg-indigo-950/30 border border-indigo-500/20 rounded-lg p-4 text-indigo-100 placeholder-indigo-400/30 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all font-sans leading-relaxed resize-none scrollbar-thin scrollbar-thumb-indigo-500/20"
+                placeholder="Enter your detailed prediction and analysis here..."
+                value={prediction}
+                onChange={(e) => setPrediction(e.target.value)}
+            />
+        </div>
+    );
+});
+
+PredictionPanel.displayName = 'PredictionPanel';
+
+export function KundaliReportView({ data }: KundaliReportViewProps) {
+    const [showPlanetaryPositions, setShowPlanetaryPositions] = useState(true);
+    const [debouncedPrediction, setDebouncedPrediction] = useState('');
+
+    const handlePredictionChange = React.useCallback((val: string) => {
+        setDebouncedPrediction(val);
+    }, []);
 
 
     const EXCLUDED_BENEFICS = [
@@ -61,15 +134,7 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                 </div>
 
                 {/* Prediction Section */}
-                <div className="space-y-4">
-                    <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2">Prediction</h3>
-                    <textarea
-                        className="w-full h-[400px] bg-indigo-950/30 border border-indigo-500/20 rounded-lg p-4 text-indigo-100 placeholder-indigo-400/30 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all font-sans leading-relaxed resize-none scrollbar-thin scrollbar-thumb-indigo-500/20"
-                        placeholder="Enter your detailed prediction and analysis here..."
-                        value={prediction}
-                        onChange={(e) => setPrediction(e.target.value)}
-                    />
-                </div>
+                <PredictionPanel key={`${data.birthDetails.name}-${data.birthDetails.date}`} onDebouncedChange={handlePredictionChange} />
             </div>
 
             {/* Avakahada Chakra - Moved Down */}
@@ -234,54 +299,17 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
 
             {/* Footer Action */}
             <div className="flex justify-end pt-4 border-t border-white/10 mt-4">
-                <BlobProvider
-                    key={`${data.birthDetails.name}-${debouncedPrediction.length}`}
-                    document={<KundaliDocument data={data} showPlanetaryPositions={showPlanetaryPositions} prediction={debouncedPrediction} />}
-                >
-                    {({ url, loading, error }) => {
-                        if (error) {
-                            console.error("PDF Generation Error:", error);
-                        }
-                        return (
-                            <a
-                                href={url || '#'}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => {
-                                    if (!url) {
-                                        e.preventDefault();
-                                        alert("PDF is still generating or failed. Please check console for details.");
-                                    }
-                                }}
-                                className={`
-                                inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all
-                                ${loading
-                                        ? 'bg-zinc-700 text-zinc-400 cursor-wait'
-                                        : error
-                                            ? 'bg-red-600 text-white cursor-not-allowed'
-                                            : 'bg-amber-600 hover:bg-amber-700 text-white hover:scale-105 shadow-lg shadow-amber-900/20'}
-                            `}
-                            >
-                                {loading ? (
-                                    <span>Generating PDF...</span>
-                                ) : error ? (
-                                    <span>Generation Failed</span>
-                                ) : (
-                                    <>
-                                        <Download className="w-5 h-5" />
-                                        Download Full Report
-                                    </>
-                                )}
-                            </a>
-                        )
-                    }}
-                </BlobProvider>
+                <DownloadReportButton
+                    data={data}
+                    prediction={debouncedPrediction}
+                    showPlanetaryPositions={showPlanetaryPositions}
+                />
             </div>
         </div >
     );
 }
 
-function DashaTable({ data, type }: { data: any[], type: string }) {
+const DashaTable = React.memo(({ data, type }: { data: any[], type: string }) => {
     if (!data || data.length === 0) return <div className="text-zinc-500 italic p-4">No data available</div>;
 
     const currentDasha = data.find(d => d.isCurrent);
@@ -342,4 +370,5 @@ function DashaTable({ data, type }: { data: any[], type: string }) {
             </div>
         </div>
     );
-}
+});
+DashaTable.displayName = 'DashaTable';

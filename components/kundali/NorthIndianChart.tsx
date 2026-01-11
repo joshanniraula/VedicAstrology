@@ -1,7 +1,7 @@
 import React from 'react';
 import { KundaliReport } from '@/lib/astrology/types';
 
-export const NorthIndianChart = ({ data }: { data: KundaliReport }) => {
+export const NorthIndianChart = React.memo(({ data }: { data: KundaliReport }) => {
     // Helper to get planets in a house as an array
     const getPlanets = (house: number) => data.chart.houses[house] || [];
 
@@ -75,4 +75,4 @@ export const NorthIndianChart = ({ data }: { data: KundaliReport }) => {
             </div>
         </div>
     );
-};
+});
