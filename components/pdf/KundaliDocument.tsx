@@ -260,7 +260,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                     {/* 3. Text (Center) */}
                     <View style={styles.headerTextContainer}>
                         <Text style={styles.om}>|| श्री गणेशाय नमः ||</Text>
-                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', color: '#E35E18', textAlign: 'center', textTransform: 'uppercase' }}>Monjusatya Astrologer Center</Text>
+                        <Text style={{ fontSize: 12, fontFamily: 'Helvetica-Bold', color: '#E35E18', textAlign: 'center', textTransform: 'uppercase' }}>Monjusatya Astrology Center</Text>
                         <Text style={{ fontSize: 9, color: '#333', marginBottom: 2, textAlign: 'center' }}>Kathmandu, Nepal</Text>
                         <Text style={styles.title}>|| अथ जन्मकुंडली: ||</Text>
                     </View>
@@ -538,6 +538,7 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                 {/* Mantras Section */}
                 {data.currentMantras && (
                     <View style={{ marginTop: 10, padding: 8, backgroundColor: '#ffffff', borderRadius: 4, borderWidth: 1, borderColor: '#fcd34d' }}>
+<<<<<<< HEAD
                         <Text style={{ fontSize: fsSectionTitle, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}>Mantras</Text>
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -547,16 +548,35 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                                 {data.currentMantras.vimshottari.subPlanet && (
                                     <View>
                                         <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
+=======
+                        <Text style={{ fontSize: 11, fontFamily: 'Helvetica-Bold', marginBottom: 6, color: '#d97706', textAlign: 'center' }}> Mantras</Text>
+
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ width: '48%' }}>
+                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
+
+                                {data.currentMantras.vimshottari.subPlanet && (
+                                    <View>
+                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
+>>>>>>> bebd1d032457efa1bb4960a6de860146e92ca044
                                     </View>
                                 )}
                             </View>
 
                             <View style={{ width: '48%' }}>
+<<<<<<< HEAD
                                 <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
 
                                 {data.currentMantras.yogini.subDasha && (
                                     <View>
                                         <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
+=======
+                                <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
+
+                                {data.currentMantras.yogini.subDasha && (
+                                    <View>
+                                        <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
+>>>>>>> bebd1d032457efa1bb4960a6de860146e92ca044
                                     </View>
                                 )}
                             </View>
