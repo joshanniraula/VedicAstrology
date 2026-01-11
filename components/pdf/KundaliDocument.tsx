@@ -533,26 +533,20 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '48%' }}>
-                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Vimshottari Dasha:</Text>
-                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.vimshottari.planet}):</Text>
                                 <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
 
                                 {data.currentMantras.vimshottari.subPlanet && (
                                     <View>
-                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.vimshottari.subPlanet}):</Text>
                                         <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
                                     </View>
                                 )}
                             </View>
 
                             <View style={{ width: '48%' }}>
-                                <Text style={{ fontSize: 9, fontFamily: 'Helvetica-Bold', color: '#92400e', marginBottom: 2 }}>Yogini Dasha:</Text>
-                                <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Mahadasha ({data.currentMantras.yogini.dasha}):</Text>
                                 <Text style={{ fontSize: 8, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
 
                                 {data.currentMantras.yogini.subDasha && (
                                     <View>
-                                        <Text style={{ fontSize: 8, fontFamily: 'Helvetica-Bold', color: '#333' }}>Antardasha ({data.currentMantras.yogini.subDasha}):</Text>
                                         <Text style={{ fontSize: 8, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
                                     </View>
                                 )}
