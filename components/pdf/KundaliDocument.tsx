@@ -310,6 +310,21 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
 
                     <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#ccc' }}>
                         <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Day</Text>
+                        </View>
+                        <View style={{ width: '30%', padding: 4, borderRightWidth: 1, borderRightColor: '#ccc' }}>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.dayOfWeek}</Text>
+                        </View>
+                        <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
+                            <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Tithi</Text>
+                        </View>
+                        <View style={{ width: '30%', padding: 4 }}>
+                            <Text style={{ fontSize: fsStandard }}>{data.birthDetails.tithi}</Text>
+                        </View>
+                    </View>
+
+                    <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: '#ccc' }}>
+                        <View style={{ width: '20%', padding: 4, backgroundColor: '#fff3e0', borderRightWidth: 1, borderRightColor: '#ccc' }}>
                             <Text style={{ fontSize: fsStandard, fontFamily: 'Helvetica-Bold' }}>Current Age</Text>
                         </View>
                         <View style={{ width: '80%', padding: 4 }}>

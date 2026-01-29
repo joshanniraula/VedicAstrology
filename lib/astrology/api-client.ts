@@ -78,6 +78,12 @@ const NAKSHATRAS = [
     { name: "Purva Bhadrapada", lord: "Jupiter" }, { name: "Uttara Bhadrapada", lord: "Saturn" }, { name: "Revati", lord: "Mercury" }
 ];
 
+const TITHIS = [
+    "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami", "Shashthi",
+    "Saptami", "Ashtami", "Navami", "Dashami", "Ekadashi", "Dwadashi",
+    "Trayodashi", "Chaturdashi", "Purnima", "Amavasya"
+];
+
 // --- Vedic Astrology Helpers ---
 
 function getLahiriAyanamsa(date: Date): number {
@@ -148,6 +154,21 @@ function getKarana(sunLon: number, moonLon: number): string {
     // Starting from index 1 (2nd half-tithi). 
     // (index - 1) % 7
     return KARANAS[(index - 1) % 7];
+}
+
+function getTithi(sunLon: number, moonLon: number): string {
+    const diff = normalize(moonLon - sunLon);
+    const tithiIndex = Math.floor(diff / 12) + 1; // 1 to 30
+
+    const paksha = tithiIndex <= 15 ? "Shukla" : "Krishna";
+    const displayNameIndex = tithiIndex <= 15 ? tithiIndex : tithiIndex - 15;
+
+    // Special Cases
+    if (tithiIndex === 15) return "Purnima (Full Moon)";
+    if (tithiIndex === 30) return "Amavasya (New Moon)";
+
+    const name = TITHIS[displayNameIndex - 1];
+    return `${paksha} ${name}`;
 }
 
 function getPaya(moonSign: number, ascSign: number): string {
@@ -534,6 +555,10 @@ export async function fetchKundaliData(input: {
 
         const yogaName = getYoga(sunSidereal, moonSidereal);
         const karanaName = getKarana(sunSidereal, moonSidereal);
+        const tithiName = getTithi(sunSidereal, moonSidereal);
+
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayOfWeek = daysOfWeek[dateObj.getDay()];
 
         // Nakshatra Details
         // Find index of standard 27 nakshatras in our new list.
@@ -715,7 +740,9 @@ export async function fetchKundaliData(input: {
                 country: input.country,
                 lat: lat,
                 lon: lon,
-                timezone: timezoneId
+                timezone: timezoneId,
+                tithi: tithiName,
+                dayOfWeek: dayOfWeek
             },
             avakahada: {
                 ascendantLord: `${ascData.name} / ${RASHI_LORDS[ascendantSignId]}`,

@@ -121,7 +121,7 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                     Janma Kundali
                 </h2>
                 <div className="text-indigo-200 text-sm font-medium tracking-wide">
-                    {data.birthDetails.name} • {data.birthDetails.date} • {data.birthDetails.place}
+                    {data.birthDetails.name} • {data.birthDetails.date} ({data.birthDetails.dayOfWeek}) • {data.birthDetails.tithi} • {data.birthDetails.place}
                 </div>
             </div>
 

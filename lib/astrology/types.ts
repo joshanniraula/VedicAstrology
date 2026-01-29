@@ -7,6 +7,8 @@ export interface BirthDetails {
     lat?: number;
     lon?: number;
     timezone?: string;
+    tithi?: string;
+    dayOfWeek?: string;
 }
 
 export interface AvakahadaChakra {
