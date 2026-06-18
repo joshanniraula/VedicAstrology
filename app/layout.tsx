@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cinzel } from "next/font/google"; // ADDED Cinzel
+import { Geist, Geist_Mono, Cinzel } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,11 +15,14 @@ const geistMono = Geist_Mono({
 const cinzel = Cinzel({
   variable: "--font-cinzel",
   subsets: ["latin"],
+  weight: ["400", "700", "900"],
 });
 
 export const metadata: Metadata = {
-  title: "Vedic Astrology",
-  description: "Precise Janma Kundali Generation",
+  title: "Vedic Mystery — Janma Kundali Generator",
+  description:
+    "Generate precise Janma Kundali birth charts with ancient Vedic wisdom and modern astronomical accuracy. Enter your birth details in AD or Bikram Sambat (BS) format.",
+  keywords: ["Vedic Astrology", "Janma Kundali", "Kundali Generator", "Birth Chart", "Bikram Sambat", "Nepali Astrology"],
 };
 
 export default function RootLayout({

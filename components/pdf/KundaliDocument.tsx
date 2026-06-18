@@ -559,7 +559,10 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                             <View style={{ width: '48%' }}>
                                 <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.vimshottari.mantra}"</Text>
 
-                                {data.currentMantras.vimshottari.subPlanet && (
+                                {data.currentMantras.vimshottari.subPlanet &&
+                                    data.currentMantras.vimshottari.subMantra &&
+                                    data.currentMantras.vimshottari.subMantra.trim().toLowerCase() !==
+                                        data.currentMantras.vimshottari.mantra.trim().toLowerCase() && (
                                     <View>
                                         <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.vimshottari.subMantra}"</Text>
                                     </View>
@@ -569,7 +572,10 @@ export const KundaliDocument = ({ data, showPlanetaryPositions, prediction }: { 
                             <View style={{ width: '48%' }}>
                                 <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333', marginBottom: 4 }}>"{data.currentMantras.yogini.mantra}"</Text>
 
-                                {data.currentMantras.yogini.subDasha && (
+                                {data.currentMantras.yogini.subDasha &&
+                                    data.currentMantras.yogini.subMantra &&
+                                    data.currentMantras.yogini.subMantra.trim().toLowerCase() !==
+                                        data.currentMantras.yogini.mantra.trim().toLowerCase() && (
                                     <View>
                                         <Text style={{ fontSize: fsSmall, marginTop: 1, color: '#333' }}>"{data.currentMantras.yogini.subMantra}"</Text>
                                     </View>

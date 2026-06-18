@@ -14,76 +14,120 @@ interface KundaliReportViewProps {
 
 // Memoized Download Button Component
 const DownloadReportButton = React.memo(({ data, prediction, showPlanetaryPositions }: { data: KundaliReport, prediction: string, showPlanetaryPositions: boolean }) => {
+    const safeName = data.birthDetails.name
+        .trim()
+        .replace(/\s+/g, '_')
+        .replace(/[^\w\u0900-\u097F]/g, '') || 'Kundali';
+    const filename = `${safeName}_Kundali.pdf`;
+
     return (
         <BlobProvider
             key={`${data.birthDetails.name}-${prediction.length}`}
             document={<KundaliDocument data={data} showPlanetaryPositions={showPlanetaryPositions} prediction={prediction} />}
         >
             {({ url, loading, error }) => {
-                if (error) {
-                    console.error("PDF Generation Error:", error);
-                }
+                if (error) console.error('PDF Generation Error:', error);
                 return (
-                    <a
-                        href={url || '#'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => {
-                            if (!url) {
-                                e.preventDefault();
-                                alert("PDF is still generating or failed. Please check console for details.");
-                            }
-                        }}
-                        className={`
-                        inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all
-                        ${loading
+                    <div className="flex items-center gap-3">
+                        {/* Preview */}
+                        <a
+                            href={url || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => { if (!url) e.preventDefault(); }}
+                            title="Open PDF in new tab"
+                            className={`
+                            inline-flex items-center gap-2 px-5 py-3 rounded-lg font-semibold transition-all border
+                            ${loading
+                                ? 'bg-zinc-800 text-zinc-500 border-zinc-700 cursor-wait'
+                                : error
+                                    ? 'bg-red-900/20 text-red-400 border-red-700/30 cursor-not-allowed'
+                                    : 'bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-200 border-indigo-500/30 hover:border-indigo-400/60 hover:scale-105'}`}
+                        >
+                            <Eye className="w-4 h-4" />
+                            Preview
+                        </a>
+
+                        {/* Download */}
+                        <a
+                            href={url || '#'}
+                            download={url ? filename : undefined}
+                            rel="noopener noreferrer"
+                            onClick={(e) => { if (!url) { e.preventDefault(); alert('PDF is still generating. Please try again in a moment.'); } }}
+                            title={`Download as ${filename}`}
+                            className={`
+                            inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all
+                            ${loading
                                 ? 'bg-zinc-700 text-zinc-400 cursor-wait'
                                 : error
                                     ? 'bg-red-600 text-white cursor-not-allowed'
-                                    : 'bg-amber-600 hover:bg-amber-700 text-white hover:scale-105 shadow-lg shadow-amber-900/20'}
-                    `}
-                    >
-                        {loading ? (
-                            <span>Generating PDF...</span>
-                        ) : error ? (
-                            <span>Generation Failed</span>
-                        ) : (
-                            <>
-                                <Download className="w-5 h-5" />
-                                Download Full Report
-                            </>
-                        )}
-                    </a>
-                )
+                                    : 'bg-amber-600 hover:bg-amber-700 text-white hover:scale-105 shadow-lg shadow-amber-900/20'}`}
+                        >
+                            {loading ? (
+                                <span>Generating PDF…</span>
+                            ) : error ? (
+                                <span>Failed</span>
+                            ) : (
+                                <>
+                                    <Download className="w-4 h-4" />
+                                    Download · {data.birthDetails.name}
+                                </>
+                            )}
+                        </a>
+                    </div>
+                );
             }}
         </BlobProvider>
     );
 });
 
+
 DownloadReportButton.displayName = 'DownloadReportButton';
 
-// Memoized Prediction Panel to isolate typing state
+// Memoized Prediction Panel — uses an UNCONTROLLED textarea so React never
+// forces a value re-render that would reset the cursor position.
 const PredictionPanel = React.memo(({ onDebouncedChange }: { onDebouncedChange: (val: string) => void }) => {
-    const [prediction, setPrediction] = useState('');
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const timerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Debounce internal state to parent
-    React.useEffect(() => {
-        const timer = setTimeout(() => {
-            onDebouncedChange(prediction);
-        }, 500); // 500ms is enough for a smooth feel
+    const handleChange = () => {
+        const val = textareaRef.current?.value ?? '';
+        if (timerRef.current) clearTimeout(timerRef.current);
+        timerRef.current = setTimeout(() => onDebouncedChange(val), 500);
+    };
 
-        return () => clearTimeout(timer);
-    }, [prediction, onDebouncedChange]);
+    // Cleanup timer on unmount
+    React.useEffect(() => () => {
+        if (timerRef.current) clearTimeout(timerRef.current);
+    }, []);
 
     return (
-        <div className="space-y-4">
-            <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2">Prediction</h3>
-            <textarea
-                className="w-full h-[400px] bg-indigo-950/30 border border-indigo-500/20 rounded-lg p-4 text-indigo-100 placeholder-indigo-400/30 focus:outline-none focus:border-amber-500/50 focus:ring-1 focus:ring-amber-500/20 transition-all font-sans leading-relaxed resize-none scrollbar-thin scrollbar-thumb-indigo-500/20"
-                placeholder="Enter your detailed prediction and analysis here..."
-                value={prediction}
-                onChange={(e) => setPrediction(e.target.value)}
-            />
+        <div className="space-y-3">
+            <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2 flex items-center gap-2">
+                <span>Prediction</span>
+                <span className="text-xs text-indigo-400/50 font-sans font-normal normal-case tracking-normal">(optional — appears in PDF)</span>
+            </h3>
+            <div className="relative group">
+                <textarea
+                    ref={textareaRef}
+                    defaultValue=""
+                    onChange={handleChange}
+                    spellCheck={false}
+                    className="w-full h-[380px] rounded-xl p-4 text-indigo-100 placeholder-indigo-400/30
+                        font-sans text-sm leading-relaxed resize-none
+                        scrollbar-thin scrollbar-thumb-indigo-500/20
+                        outline-none transition-all duration-200
+                        border border-indigo-500/25 bg-indigo-950/40
+                        focus:border-amber-500/50 focus:ring-2 focus:ring-amber-500/10
+                        hover:border-indigo-400/40"
+                    placeholder="Enter your detailed prediction and analysis here...
+
+This text will appear in the downloaded PDF report."
+                />
+                {/* Corner glow on focus */}
+                <div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-300"
+                    style={{ boxShadow: "inset 0 0 30px rgba(251,191,36,0.03)" }} />
+            </div>
         </div>
     );
 });
@@ -110,10 +154,17 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
     ];
 
     return (
-        <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto p-4 md:p-8 bg-slate-900/50 backdrop-blur-xl rounded-xl border border-indigo-500/20 shadow-2xl overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-indigo-500/30">
+        <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto p-4 md:p-8
+            rounded-xl border border-indigo-500/20 shadow-2xl
+            overflow-y-auto max-h-[85vh] scrollbar-thin scrollbar-thumb-indigo-500/30
+            animate-slide-up"
+            style={{
+                background: "linear-gradient(135deg, #0a0820 0%, #060412 60%, #0b0a1f 100%)",
+            }}>
 
             {/* Header */}
-            <div className="flex flex-col items-center justify-center text-center space-y-2">
+            <div className="flex flex-col items-center justify-center text-center space-y-2
+                animate-slide-up" style={{ animationDelay: "0.05s" }}>
                 <div className="text-amber-500 font-serif text-xl font-bold mb-2">
                     || श्री गणेशाय नमः ||
                 </div>
@@ -126,7 +177,8 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
             </div>
 
             {/* Main Grid: Chart + Prediction */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start
+                animate-slide-up" style={{ animationDelay: "0.12s" }}>
 
                 {/* Visual Chart */}
                 <div className="w-full flex justify-center">
@@ -137,8 +189,8 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                 <PredictionPanel key={`${data.birthDetails.name}-${data.birthDetails.date}`} onDebouncedChange={handlePredictionChange} />
             </div>
 
-            {/* Avakahada Chakra - Moved Down */}
-            <div className="space-y-4">
+            {/* Avakahada Chakra */}
+            <div className="space-y-4 animate-slide-up" style={{ animationDelay: "0.2s" }}>
                 <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2">Avakahada Chakra</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3 text-sm text-indigo-100/80 bg-indigo-950/20 p-4 rounded-lg border border-indigo-500/10">
                     {Object.entries(data.avakahada).map(([key, value]) => {
@@ -160,7 +212,7 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
             </div>
 
             {/* Benefic / Malefic Analysis */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4 animate-slide-up" style={{ animationDelay: "0.28s" }}>
                 <div className="bg-indigo-950/40 p-5 rounded-lg border border-indigo-500/20">
                     <h3 className="text-amber-400 font-serif text-lg mb-4 flex items-center gap-2">
                         <span>✨</span> Favorable
@@ -198,7 +250,7 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
             </div>
 
             {/* Planetary Positions Table */}
-            <div className="space-y-4">
+            <div className="space-y-4 animate-slide-up" style={{ animationDelay: "0.36s" }}>
                 <div className="flex items-center justify-between border-b border-amber-500/20 pb-2">
                     <h3 className="text-amber-400 font-serif text-lg">Planetary Positions</h3>
                     <Button
@@ -239,7 +291,7 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
             </div>
 
             {/* Dasha Tables */}
-            <div className="space-y-4">
+            <div className="space-y-4 animate-slide-up" style={{ animationDelay: "0.44s" }}>
                 <h3 className="text-amber-400 font-serif text-lg border-b border-amber-500/20 pb-2">Dasha Periods</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -271,7 +323,10 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                                     "{data.currentMantras.vimshottari.mantra}"
                                 </p>
 
-                                {data.currentMantras.vimshottari.subPlanet && data.currentMantras.vimshottari.subMantra && (
+                                {data.currentMantras.vimshottari.subPlanet &&
+                                    data.currentMantras.vimshottari.subMantra &&
+                                    data.currentMantras.vimshottari.subMantra.trim().toLowerCase() !==
+                                        data.currentMantras.vimshottari.mantra.trim().toLowerCase() && (
                                     <div className="mt-4 pt-4 border-t border-amber-500/20">
                                         <h4 className="text-amber-300/80 font-medium text-xs uppercase tracking-wider mb-1">
                                             Antardasha: {data.currentMantras.vimshottari.subPlanet}
@@ -299,7 +354,10 @@ export function KundaliReportView({ data }: KundaliReportViewProps) {
                                     "{data.currentMantras.yogini.mantra}"
                                 </p>
 
-                                {data.currentMantras.yogini.subDasha && data.currentMantras.yogini.subMantra && (
+                                {data.currentMantras.yogini.subDasha &&
+                                    data.currentMantras.yogini.subMantra &&
+                                    data.currentMantras.yogini.subMantra.trim().toLowerCase() !==
+                                        data.currentMantras.yogini.mantra.trim().toLowerCase() && (
                                     <div className="mt-4 pt-4 border-t border-amber-500/20">
                                         <h4 className="text-amber-300/80 font-medium text-xs uppercase tracking-wider mb-1">
                                             Antardasha: {data.currentMantras.yogini.subDasha}
