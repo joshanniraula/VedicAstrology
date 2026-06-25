@@ -388,22 +388,32 @@ function getSubPeriods(
 
 // --- Main Fetch Function ---
 
-export async function fetchKundaliData(input: {
+export async function fetchKundaliData(params: {
     name: string;
     date: string;
     time: string;
     place: string;
     country: string;
+    lat?: number;
+    lon?: number;
 }): Promise<ReportType> {
+    const { name, date, time, place, country, lat: paramLat, lon: paramLon } = params;
+
+    let lat = paramLat;
+    let lon = paramLon;
+
+    if (lat === undefined || lon === undefined) {
+        const coords = await getCoordinates(`${place}, ${country}`);
+        lat = coords.lat;
+        lon = coords.lon;
+    }
 
     try {
-        console.log("Processing Kundali for:", input);
+        console.log("Processing Kundali for:", name, date, time, place, country);
 
-        const queryPlace = `${input.place}, ${input.country}`;
-        const { lat, lon } = await getCoordinates(queryPlace);
-        const timezoneId = tzLookup(lat, lon);
+        const timezoneId = tzLookup(lat!, lon!);
 
-        const dt = DateTime.fromISO(`${input.date}T${input.time}`, { zone: timezoneId });
+        const dt = DateTime.fromISO(`${date}T${time}`, { zone: timezoneId });
         if (!dt.isValid) throw new Error("Invalid Date/Time");
         const dateObj = dt.toJSDate();
 
@@ -545,7 +555,7 @@ export async function fetchKundaliData(input: {
         const moonSidereal = toSidereal(moonPos.elon, ayanamsa);
         const moonNakFull = getNakshatra(moonSidereal);
 
-        const numerology = getNumerology(input.date);
+        const numerology = getNumerology(date);
 
         // Calculate Yoga & Karana
         const astroTimeSun = Astronomy.MakeTime(dateObj);
@@ -733,11 +743,11 @@ export async function fetchKundaliData(input: {
 
         return {
             birthDetails: {
-                name: input.name,
-                date: input.date,
-                time: input.time,
-                place: input.place,
-                country: input.country,
+                name: name,
+                date: date,
+                time: time,
+                place: place,
+                country: country,
                 lat: lat,
                 lon: lon,
                 timezone: timezoneId,

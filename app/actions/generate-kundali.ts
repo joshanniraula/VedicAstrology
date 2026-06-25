@@ -9,6 +9,8 @@ export async function generateKundaliAction(formData: {
     tob: string;
     place: string;
     country: string;
+    lat?: number;
+    lon?: number;
 }): Promise<KundaliReport> {
 
     // Server-side logic to call our API Client
@@ -18,6 +20,8 @@ export async function generateKundaliAction(formData: {
         time: formData.tob,
         place: formData.place,
         country: formData.country,
+        lat: formData.lat,
+        lon: formData.lon,
     });
 
     return report;

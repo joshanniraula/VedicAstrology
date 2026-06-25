@@ -13,8 +13,11 @@ export const BS_MONTH_NAMES = [
     'Kartik', 'Mangsir', 'Poush', 'Magh', 'Falgun', 'Chaitra',
 ];
 
-export const BS_MIN_YEAR = 2000;
-export const BS_MAX_YEAR = 2090;
+export const BS_MIN_YEAR = 1000;
+export const BS_MAX_YEAR = 3000;
+
+// Approximate month lengths for fallback calculations
+const FALLBACK_MONTH_DAYS = [31, 31, 31, 32, 31, 31, 30, 29, 30, 29, 30, 30];
 
 /**
  * Convert a BS date to an AD Date object.
@@ -23,9 +26,24 @@ export const BS_MAX_YEAR = 2090;
  * @param bsDay   Day of month (1-based)
  */
 export function bsToAdDate(bsYear: number, bsMonth: number, bsDay: number): Date {
-    // nepali-date-converter expects 0-based month
-    const nd = new NepaliDate(bsYear, bsMonth - 1, bsDay);
-    return nd.toJsDate();
+    try {
+        // nepali-date-converter expects 0-based month
+        const nd = new NepaliDate(bsYear, bsMonth - 1, bsDay);
+        return nd.toJsDate();
+    } catch (e) {
+        // Fallback for years outside 2000-2090
+        // Baishakh 1 is usually around April 14
+        const adYear = bsYear - 57;
+        
+        let daysFromBaishakh1 = bsDay - 1;
+        for (let i = 0; i < bsMonth - 1; i++) {
+            daysFromBaishakh1 += FALLBACK_MONTH_DAYS[i];
+        }
+
+        const baseDate = new Date(adYear, 3, 14); // April 14
+        baseDate.setDate(baseDate.getDate() + daysFromBaishakh1);
+        return baseDate;
+    }
 }
 
 /**
@@ -52,7 +70,7 @@ export function getBsMonthDays(bsYear: number, bsMonth: number): number {
         const firstDayNext = new NepaliDate(nextYear, nextMonth - 1, 1).toJsDate();
         return Math.round((firstDayNext.getTime() - firstDay.getTime()) / 86_400_000);
     } catch {
-        return 30; // fallback
+        return FALLBACK_MONTH_DAYS[bsMonth - 1] || 30; // fallback
     }
 }
 

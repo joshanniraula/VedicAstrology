@@ -201,7 +201,38 @@ export function InputForm() {
         setValue("dob", adDate, { shouldValidate: false })
     }, [setValue])
 
-    const onSubmit = async (data: FormData) => {
+    // Auto-fill and verify from URL
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            const verify = params.get('verify');
+            if (verify === 'true') {
+                const dob = params.get('dob') || '';
+                const tob = params.get('tob') || '';
+                const lat = params.get('lat') || '';
+                const lon = params.get('lon') || '';
+                
+                // Set form values
+                const fullName = "UltraVision Verification";
+                const place = "Selected Location";
+                const country = "Custom Coordinates";
+                
+                setValue("fullName", fullName);
+                setValue("dob", dob);
+                setValue("tob", tob);
+                setValue("place", place);
+                setValue("country", country);
+
+                // Auto-submit immediately
+                setTimeout(() => {
+                    const data = { fullName, dob, tob, place, country, lat: parseFloat(lat), lon: parseFloat(lon) };
+                    onSubmit(data as any);
+                }, 500);
+            }
+        }
+    }, [setValue]);
+
+    const onSubmit = async (data: any) => {
         try {
             const report = await generateKundaliAction({
                 fullName: data.fullName,
@@ -209,10 +240,11 @@ export function InputForm() {
                 tob: data.tob,
                 place: data.place,
                 country: data.country,
+                lat: data.lat, // Pass optional lat/lon if they exist
+                lon: data.lon,
             })
             setReportData(report)
             setIsDialogOpen(true)
-            reset()
         } catch (error: any) {
             console.error("Failed to generate Kundali:", error)
             const msg = error instanceof Error ? error.message : "An unexpected error occurred."
